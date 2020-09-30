@@ -40,14 +40,22 @@ For this project, I have done
 4. Join Triboro Bronx and Triboro Manhattan counts to 'Triboro'
 
 
-### *Summing EZ-Pass/Cash and Hourly to Daily*
-Since I am interested in the forecast of daily counts per bridge, it makes sense to add the ez-pass and cash counts and sum hourly instances by days.
+## Feature Engineering
+1. Holidays - Holidays can be grabbed from holidays package
+2. Datetime Extraction - From datetime, extracting dayofweek, weekend, month, etc.
+3. 2020 Events - https://www.investopedia.com/historical-timeline-of-covid-19-in-new-york-city-5071986
+    - March 12 - Events with more than 500 people cancelled
+    - March 22 - NYS Pause Program begins, all non-essential workers must stay home
+    - April 16 - Governor Cuomo extendes the stay-at-home order and school closures to May 15
+    - May 15 - Governor Cuomo extends PAUSE to May 28
+    - June 8 - NYC begins Phase 1 opening
+    - June 22 - NYC begins Phase 2 opening
+    - July 7 - NYC begins Phase 3 opening
+    - July 19 - NYC begins Phase 4 opening
+4. Average Daily Temperature - https://w2.weather.gov/climate/xmacis.php?wfo=okx
+    - Weather data was calculated from 2010 - 2020. I then fit just the average temperature values with a vanilla FBProphet and forecasted to 2021. I will be using the y_hat values returned from FBProphet for 2018-2021.
 
-### *Use data collected from 2018 and on*
-On 2017, NYC finishes installing cash-less tolls. I decided to use the data from 2018 and on because pre-2017, the data was collected in a different way. The article of cashless tolling completion can be found [here](https://www.governor.ny.gov/news/governor-cuomo-announces-completion-cashless-tolling-all-mta-bridges-and-tunnels-three-months).
 
-### *Join Triboro Bronx and Triboro Manhattan*
-The Triboro Bridge consists of three bridges that connect Manhattan, Bronx, and Queens. For this project, I have decided to treat these three bridges as one.
 
 # Exploratory Visualizations
 1. Average Daily Counts by Month
@@ -103,7 +111,7 @@ With LGBM, I have forecasted from 09-27-20 to 03-31-21. On 01-01-21, I have assu
 
 To translate these counts into dollars and into something more applicable, I will multiple each count to $6. The calculated values are just estimated but the scale remains the same. <br>
 
-2019 Q1 Actual Revenue: $403,945,428 <br>
+2019 Q1 Estimated Revenue: $403,945,428 <br>
 2021 Q1 Purple Predicted Revenue: $374,626,254 <br>
 2021 Q1 Teal Predicted Revenue: $359,503,302 <br>
 2021 Q1 Red Predicted Revenue: $232,564,344 <br>

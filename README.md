@@ -6,7 +6,8 @@ For this project, my objective is to forecast NYC bridges and tunnels traffic (n
 
 # Structure of Respository
 - MTABT_EDA.ipynb - notebook for plots
-- MTABT_models.ipynb - notebook for models
+- MTABT_mode>ls.ipynb - model notebook. Please run in this order:
+    - Dummy &rightarrow; SARIMAX &rightarrow; FBProphet &rightarrow; LGBM
 - MTABT_forecast.ipynb - notebook for forecasting
 - IMG/ - folder for plots
 - /README.md

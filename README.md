@@ -78,26 +78,34 @@ On March 12, events with more than 500 were cancelled. Shortly after public scho
 ![events](IMG/covid_events.png)
 
 
-# Modeling
+# Model Evaluation
 For EDA, I have summed up all the bridges to create more readable plots. However, there are a total of 9 toll bridges in NYC. Although they look similar(follow similar trends), I am cautious in assuming they are all the same.
 
 
 
 ![train_test](IMG/traintest.png)
-In order to evaluate the models, I separate 21 of the most recent days as my test set. I decided to start the test set on 08-23-20 because I wanted to give the model at least a month of data while NYC was on Phase 4(Phase 4 initialized on July 19).
+In order to evaluate the models, I separate 21 of the most recent days as my test set. I decided to start the test set on 08-23-20 because I wanted to give the model at least a month of data while NYC was on Phase 4 (Phase 4 initialized on July 19).
 
 ![stantec](IMG/bt.png) <br>
 This image was taken from MTA Bridge and Tunnels. Please look [here](http://web.mta.info/mta/investor/pdf/2020/AppendixEStantec.pdf) for more information.
 
-I'll create 9 univariate models and each will return an root mean squared error. I used root mean squared error as the metric as it is more sensitive to robust errors than mean absolute error. I then sum the 9 rmse to artificially create an error for all the bridges.
+# Models:
+I used root mean squared error as the metric as it is more sensitive to robust errors than mean absolute error. I then sum the 9 rmse to artificially create an error for all the bridges.
+
+1. Dummy Regressor - Calculate the average of the last 7 days count per bridge and forecast a horizontal line forward. 
+    - RMSE: 68953
+2. SARIMAX - Use features created as exogenous variables. The parameters (1,1,2)x(1,0,1,7) with trend = 'n' was found through grid search. I created 9 separate SARIMAX models( one for each bridge) and summed all errors.
+    - RMSE: 43468
+3. FBProphet - Use the same features (but not dummified) in add_regressor(). I made some minor adjustments on parameters but I would say its still pretty vanilla FBProphet. Same concept as SARIMAX, 9 separate FBProphet models (one for each bridge) and summed all errors.
+    - RMSE: 47698
+4. LGBM - Change time series into a decision tree regressor problem. Instead of having 9 separate models, I can have one gbdt model. Done by melting bridges from wide to long and adding same features as before. IN ADDITION, adding lags(lag_7, lag_28) and moving averages. Forecasting can be done in a recursive manner. (As in, forecast t+1 and recalculate the lags... forecast (t+1)+1 and recalculate lags)
+    - RMSE: 44394
+
+
+<br>
 
 ![rmse_scores](IMG/rmse_scores.png) <br>
 
-Sum of All RMSE
->Dummy 7    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     68953<br>
-SARIMAX    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     43468<br>
-FB_prophet_1  &nbsp;&nbsp;&nbsp;&nbsp;  47698<br>
-LGBM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;44394<br>
 
 # Results
 ![rmse_scores](IMG/2021Q1forecast.png) <br>

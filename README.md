@@ -7,6 +7,7 @@ For this project, my objective is to forecast NYC bridges and tunnels traffic (n
 # Structure of Respository
 - MTABT_EDA.ipynb - notebook for plots
 - MTABT_models.ipynb - notebook for models
+- MTABT_forecast.ipynb - notebook for forecasting
 - IMG/ - folder for plots
 - /README.md
 
@@ -17,7 +18,7 @@ For this project, my objective is to forecast NYC bridges and tunnels traffic (n
 3. What does the forecast look for different bridges relative to prior year?
 
 
-## Data
+# Data
 
 
 The dataset can be found [here](https://data.ny.gov/Transportation/Hourly-Traffic-on-Metropolitan-Transportation-Auth/qzve-kjga). The data is collected by Metropolitan Transportation Authority (MTA) Bridges and Tunnels. 
@@ -55,7 +56,7 @@ The Triboro Bridge consists of three bridges that connect Manhattan, Bronx, and 
 4. 2020 events
 
 
-On the first plot, it seems the average daily counts of all toll traffic increases during the summer seasons and recedes in the winter.
+On the first plot, it seems the average daily counts of all toll traffic increases during the Q2(Apr-Jun) and Q3(Jul-Sept) and recedes for Q1(Jan-Feb) and Q4(Oct-Dec). Also, please note the stark drop for 2020. I will explain this later.
 ![Monthly](IMG/Monthly.png)
 
 
@@ -77,39 +78,49 @@ For EDA, I have summed up all the bridges to create more readable plots. However
 ![train_test](IMG/traintest.png)
 In order to evaluate the models, I separate 21 of the most recent days as my test set. I decided to start the test set on 08-23-20 because I wanted to give the model at least a month of data while NYC was on Phase 4(Phase 4 initialized on July 19).
 
-![stantec](IMG/stantecimages.png) <br>
-This image was taken from Stantec's report published on April 29, 2020. 
-Please look [here](http://web.mta.info/mta/investor/pdf/2020/AppendixEStantec.pdf) for more information.
+![stantec](IMG/bt.png) <br>
+This image was taken from MTA Bridge and Tunnels. Please look [here](http://web.mta.info/mta/investor/pdf/2020/AppendixEStantec.pdf) for more information.
 
 I'll create 9 univariate models and each will return an root mean squared error. I used root mean squared error as the metric as it is more sensitive to robust errors than mean absolute error. I then sum the 9 rmse to artificially create an error for all the bridges.
 
 ![rmse_scores](IMG/rmse_scores.png) <br>
 
 Sum of All RMSE
->SARIMAX    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     48165.277154<br>
-FB_prophet_1  &nbsp;&nbsp;&nbsp;&nbsp;  56627.036330<br>
-LGBM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;51393.546779<br>
+>Dummy 7    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     68953<br>
+SARIMAX    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     43468<br>
+FB_prophet_1  &nbsp;&nbsp;&nbsp;&nbsp;  47698<br>
+LGBM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;44394<br>
 
 # Results
-Considering that SARIMAX had the lowest total RMSE, I'll use the selected model to forecast the rest of the year. The percentage change is computed by taking the average count for days between 2020-09-13 to 2020-12-31 versus 2019-09-13 to 2019-12-31: 
->(Average Day 2020 - Average Day 2019) / Average Day 2019<br>
+![rmse_scores](IMG/2021Q1forecast.png) <br>
+With LGBM, I have forecasted from 09-27-20 to 03-31-21. On 01-01-21, I have assumed three conditions:
+1. Purple: Coronavirus is over, return back to normal; sum = 62,437,709
+2. Teal: Continue with Phase 4; sum = 59,917,217
+3. Red: Initiate Lockdown on January and reopen on February; sum = 38,760,724
 
+2019 was the most recent year which didn't contain the pandemic. Therefore, I will compare the values relative to 2019 Q1. <br>
+2019 Q1 Actual Sum: 67,324,238 <br>
 
-![BBT](IMG/Brooklyn_Battery_forecast.png) <br>
-![CBB](IMG/Cross_Bay_forecast.png) <br>
-![CBB](IMG/Henry_Hudson_forecast.png) <br>
-![CBB](IMG/Marine_Parkway_forecast.png) <br>
-![CBB](IMG/Queens_Midtown_forecast.png) <br>
-![CBB](IMG/Throgs_Neck_forecast.png) <br>
-![CBB](IMG/Triboro_forecast.png) <br>
-![CBB](IMG/Verrazano_forecast.png) <br>
-![CBB](IMG/Whitestone_forecast.png) <br>
+To translate these counts into dollars and into something more applicable, I will multiple each count to $6. The calculated values are just estimated but the scale remains the same. <br>
+
+2019 Q1 Actual Revenue: $403,945,428 <br>
+2021 Q1 Purple Predicted Revenue: $374,626,254 <br>
+2021 Q1 Teal Predicted Revenue: $359,503,302 <br>
+2021 Q1 Red Predicted Revenue: $232,564,344 <br>
+
+PLEASE NOTE: these values are _estimates_ as it's calculated crudely (count * $6).
+
 
 # Conclusion
-Given that NYC stays in phase 4, I have showed forecasts for bridges for the rest of the year. It's interesting to see how some bridges are forecasted to 
+New York City is in need of funds due to multiple revenue streams lost due to COVID-19. Therefore, the city must be cautious on allocating funds. Relative to 2019 Q1 Revenue gained, the model forecasts a Q1 2021 deficit on bridge and traffic tolls by around:
+1. ($29,319,174) if Coronavirus is over
+2. ($44,442,126) if the city remains in Phase 4
+3. ($171,381,084) if the city re-initiates another lockdown on January and reopens on February.
 
 # Further Steps
-I would like to experiment with other models such as keras LSTM and Dilated CNN to see if model performs better. 
-Forecasting weather data can be a preliminary step as it can help the accuracy of the forecast(specifically the Cross Bay and )
-Including number of lanes available to the forecast can help manage urban developers when it is optimal to do maintenance work.
+I would like to experiment with other models such as keras LSTM and Dilated CNN to see if model performs better. <br>
+I am also interested in making a user friendly dashboard that will plot forecasts with user inputs. (for example: I think there will be another lockdown on November 2020).
 
+# Recommendations
+I would recommend NYC of being cautious on a full lockdown. The city should introduce another manner of lockdown in which the model has never seen before. (Maybe partial lockdown?). <br>
+Moreover, I would recommend the residents of NYC to be a lot smarter with social distancing practices. Having less cases over time can help demote reasons for another lockdown.

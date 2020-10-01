@@ -118,23 +118,29 @@ With LGBM, I have forecasted from 09-27-20 to 03-31-21. On 01-01-21, I have assu
 2019 was the most recent year which didn't contain the pandemic. Therefore, I will compare the values relative to 2019 Q1. <br>
 2019 Q1 Actual Sum: 67,324,238 <br>
 
-To translate these counts into dollars and into something more applicable, I will multiple each count to $6. The calculated values are just estimated but the scale remains the same. <br>
+To translate these counts into dollars and into something more applicable, I will multiply the counts for each bridge by their unique EZ-PASS rate. (This is a minor set back as I combined cash and ez-pass payments together; Please look at Further Steps) <br>
 
-2019 Q1 Estimated Revenue: $403,945,428 <br>
-2021 Q1 Purple Predicted Revenue: $374,626,254 <br>
-2021 Q1 Teal Predicted Revenue: $359,503,302 <br>
-2021 Q1 Red Predicted Revenue: $232,564,344 <br>
+2019 Q1 Estimated Revenue: $378.2M (in millions) <br>
+2021 Q1 Purple Predicted Revenue: $350.2M <br>
+2021 Q1 Teal Predicted Revenue: $336.1M <br>
+2021 Q1 Red Predicted Revenue: $221.3M <br>
 
 PLEASE NOTE: these values are _estimates_ as it's calculated crudely (count * $6).
 
 
 # Conclusion
 New York City is in need of funds due to multiple revenue streams lost due to COVID-19. Therefore, the city must be cautious on allocating funds. Relative to 2019 Q1 Revenue gained, the model forecasts a Q1 2021 deficit on bridge and traffic tolls by around:
-1. ($29,319,174) if Coronavirus is over
-2. ($44,442,126) if the city remains in Phase 4
-3. ($171,381,084) if the city re-initiates another lockdown on January and reopens on February.
+1. ($28.0M) if Coronavirus is over
+2. ($42.1M) if the city remains in Phase 4
+3. ($156.9M) if the city re-initiates another lockdown on January and reopens on February.
+
+With the forecasts, an estimated opportunity cost can be calculated if NYC initiates a lockdown versus staying in Phase 4.
+
+The loss of potential gain would be ~$114.8M.
 
 # Further Steps
+I will forecast cash and ez-pass payments separately for reach bridge in order to get a more accurate forecasted revenue. It's important to note that I have predicted the individual bridge counts for both ez-pass and cash combined. On average about 20-30% of the tolls received are toll by mail. Therefore the forecasted revenue should be higher. Nonetheless, the differencing values and opportunity cost should still be similar.
+
 I would like to experiment with other models such as keras LSTM and Dilated CNN to see if model performs better. <br>
 I am also interested in making a user friendly dashboard that will plot forecasts with user inputs. (for example: I think there will be another lockdown on November 2020).
 

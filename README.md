@@ -125,7 +125,7 @@ To translate these counts into dollars and into something more applicable, I wil
 2021 Q1 Teal Predicted Revenue: $336.1M <br>
 2021 Q1 Red Predicted Revenue: $221.3M <br>
 
-PLEASE NOTE: these values are _estimates_ as it's calculated crudely (count * $6).
+
 
 
 # Conclusion

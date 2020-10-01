@@ -1,12 +1,12 @@
-# Time Series MTA Bridges and Tunnels
+# Forecasting Traffic Post Covid: MTABT
 Albert Um - DS Cohort 06-22-20
 
 # Project
-For this project, my objective is to forecast NYC bridges and tunnels traffic (not congestion but number of cars); given that NYC stays in phase 4. The counts can be used to convert to dollars as revenue stream or can be used to help urban developers in maintenance scheduling. Moreover, it's my take on how "normal" things are relative to pre-covid days.
+For this project, my objective is to forecast traffic trends post covid using the MTABT (Metropolitan Transportation Authoirty Bridges and Tunnels) traffic counts. The forecasted counts will be converted to dollars to forecast revenue given 3 different conditions for the first quarter (Q1) of 2021.
 
 # Structure of Respository
 - MTABT_EDA.ipynb - notebook for plots
-- MTABT_mode>ls.ipynb - model notebook. Please run in this order:
+- MTABT_models.ipynb - model notebook. Please run in this order:
     - Dummy &rightarrow; SARIMAX &rightarrow; FBProphet &rightarrow; LGBM
 - MTABT_forecast.ipynb - notebook for forecasting
 - IMG/ - folder for plots
@@ -14,9 +14,9 @@ For this project, my objective is to forecast NYC bridges and tunnels traffic (n
 
 
 # Business Case
-1. Who would be interested in this?
-2. What does the forecast look for different bridges?
-3. What does the forecast look for different bridges relative to prior year?
+1. How will MTA budgeters have a reasonable expectation of revenue through volatile conditions?
+2. What is the opportunity cost for MTABT if NYC initiates a lockdown?
+3. What can residents do to help relieve the pressures of MTA deficit?
 
 
 # Data
